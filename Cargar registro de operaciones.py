@@ -73,7 +73,6 @@ def insertarOperaciones(data):
     database.commit()
     database.close()
 
-
 def nuevaOperacion():
 
     global ars_acum, mep_acum, ccl_acum, egreso_cash, ingreso_cash, valor_neto, ticker, fecha_liquidacion, dias_duracion
