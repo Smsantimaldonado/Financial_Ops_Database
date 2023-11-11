@@ -2,6 +2,7 @@ import sqlite3
 import datetime as dt
 from tkinter import *
 
+
 egreso_cash = 0.0
 ingreso_cash = 0.0
 dm_iva = 0.0
@@ -12,7 +13,7 @@ mep_acum = 0.0
 ccl_acum = 0.0
 
 def crearDB():
-    database = sqlite3.connect(r"C:\Users\santi\Documents\GitHub\Finance\Base de prueba.db")
+    database = sqlite3.connect(r"C:\Users\santi\Documents\GitHub\Financial_Ops_Database\Test_DB.db")
     cursor = database.cursor()
     return database, cursor
 #crearDB()
@@ -43,14 +44,33 @@ def insertarOperaciones(data):
             INSERT INTO OPERACIONES (FechaOperación, Tipo, Moneda, Clase, Plazo, PrecioOrden, Cantidad, Fx, DmIVA, FechaLiquidación, ValorNeto, Ticker)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""")
 
+    ventana = Tk()
+    ventana.title('RESULTADOS DE LA OPERACIÓN')
+    ventana.geometry('400x150')
+    frame = Frame()
+    frame.pack()
+
     if (cursor.execute(accion, data)):
+        etiqueta = Label(frame, text='Datos guardados', font=('Arial', 14))
+        etiqueta.grid(column=1, row=1)
         print('\nDatos guardados\n')
     else:
+        etiqueta = Label(frame, text='Error en la carga de datos', font=('Arial', 14))
+        etiqueta.grid(column=1, row=1)
         print('\nError en la carga de datos\n')
+
+    def click():
+        ventana.destroy()
+
+    boton = Button(frame, text='Cerrar y Terminar', command=click)
+    boton.grid(column=1, row=2)
+
+    ventana.mainloop()
+
     database.commit()
     database.close()
-
-
+    
+    
 def ingresar_fecha():
     global fecha_operacion
     ventana = Tk()
@@ -192,7 +212,8 @@ def ingresar_cantidad():
 
 
 def elegir_clase():
-    global clase, valor_clase
+    global clase
+    global valor_clase
     clase = {1: 'Bonos', 2: 'ONs', 3: 'Equity', 4: 'Crypto', 0: ''}
 
     def click():
@@ -393,6 +414,12 @@ def nuevaOperacion():
     global ars_acum, mep_acum, ccl_acum, egreso_cash, ingreso_cash, valor_neto, fecha_liquidacion, dias_duracion
     global fecha_operacion, valor_tipo, valor_moneda
 
+    plazo = {0: 'CI', 24: '24hs', 48: '48hs', 9: ''}
+    clase = {1: 'Bonos', 2: 'ONs', 3: 'Equity', 4: 'Crypto', 0: ''}
+    plazo = {0: 'CI', 24: '24hs', 48: '48hs', 9: ''}
+    tipo = {1: 'Compra', 2: 'Venta', 3: 'Ingreso', 4: 'Egreso', 5: 'Renta/Dividendos', 6:'Caucion'}
+    moneda = {1: 'ARS', 2: 'USD', 3: 'USD CCL'}
+
     fecha_operacion = ingresar_fecha() # retorna fecha_operacion
     valor_tipo = elegir_tipo() # retorna valor_tipo
     valor_moneda = elegir_moneda() # retorna valor_moneda
@@ -420,7 +447,6 @@ def nuevaOperacion():
         fecha_liquidacion = fecha_operacion + dt.timedelta(days=dias_duracion)
         valor_clase = 0
         valor_plazo = 9
-        ticker = 'CAUCION'
     else:
         cantidad = 1
         fecha_liquidacion = fecha_operacion
@@ -470,15 +496,17 @@ def nuevaOperacion():
         #ingreso_cash = float(valor_operacion - dm_iva)
         valor_neto = float(valor_operacion - dm_iva)
     
+    if tipo[valor_tipo] == 'Compra' or tipo[valor_tipo] == 'Venta' or tipo[valor_tipo] == 'Renta/Dividendos':
+        ticker = ingresar_ticker()
+    elif tipo[valor_tipo] == 'Caucion':
+        ticker = 'CAUCION'
+    else:
+        ticker = ''
+
     if moneda[valor_moneda] == 'ARS':
         fx = ingresar_fx()
     else:
         fx = 1
-
-    if tipo[valor_tipo] == 'Compra' or tipo[valor_tipo] == 'Venta' or tipo[valor_tipo] == 'Renta/Dividendos':
-        ticker = ingresar_ticker()
-    else:
-        ticker = ''
     
     '''nuevo = ingreso_cash - egreso_cash
     if moneda[valor_moneda] == 'ARS':
