@@ -24,7 +24,7 @@ def crearDB():
     database = sqlite3.connect(r"C:\Users\santi\Documents\GitHub\Financial_Ops_Database\Test_DB.db")
     cursor = database.cursor()
     return database, cursor
-crearDB()
+#crearDB()
 
 
 def crearTablas():
@@ -53,7 +53,7 @@ def crearTablas():
     cursor.execute(operaciones)
     cursor.execute(diponibilidad)
     database.close()
-crearTablas()
+#crearTablas()
 
 
 def insertarOperaciones(data):
@@ -195,4 +195,99 @@ def nuevaOperacion():
     insertarOperaciones(data=datos)
 
 
-nuevaOperacion()
+def consultar(iidd):
+
+    database, cursor = crearDB()
+    indicacion = f"""SELECT * FROM OPERACIONES WHERE ID={iidd}"""
+
+    cursor.execute(indicacion)
+
+    for columna in cursor:
+        print('\n---------------------------------------')
+        print('\nFecha de la operación:   ', columna[1])
+        print('Tipo de operación:       ', columna[2])
+        print('Moneda:                  ', columna[3])
+        print('Clase:                   ', columna[4])
+        print('Plazo:                   ', columna[5])
+        print('Precio de la orden:      ', columna[6])
+        print('Cantidad:                ', columna[7])
+        print('Fx:                      ', columna[8])
+        print('Dm + IVA:                ', columna[9])
+        print('Fecha de liquidación:    ', columna[10])
+        print('Valor Neto:              ', columna[11])
+        print('Ticker:                  ', columna[12])
+        print('\n---------------------------------------')
+        print('\n')
+
+    database.close()
+    database.commit()
+    database.close()
+
+
+def modificar(iidd, variable, valor):
+
+    database, cursor = crearDB()
+    indicacion= f"""UPDATE OPERACIONES SET {variable}={valor} WHERE ID={iidd}"""
+
+    cursor.execute(indicacion)
+
+    if (cursor.execute(indicacion)):
+        print('\nDatos modificados')
+        print('\n')
+    else:
+        print('\nError en la modificacion de datos')
+        print('\n')
+
+    cursor.close()
+    database.commit()
+    database.close()
+
+
+def borrar(iidd):
+
+    database, cursor = crearDB()
+    indicacion= f"""DELETE from OPERACIONES WHERE ID={iidd}"""
+
+    cursor.execute(indicacion)
+
+    if (cursor.execute(indicacion, iidd)):
+        print('\nDatos borrados')
+        print('\n')
+    else:
+        print('\nError en la eliminación de datos')
+        print('\n')
+
+    cursor.close()
+    database.commit()
+    database.close()
+
+
+print('\n------------------------')
+print('[1] Cargar una nueva operación')
+print('[2] Consultar un registro de la base de datos')
+print('[3] Modificar un registro')
+print('[4] Borrar un registro')
+print('\n')
+
+eleccion = int(input('¿Qué desea hacer? Ingrese una opción del menú anterior: '))
+
+while eleccion > 0 and eleccion <=4:
+    if eleccion == 1:
+        nuevaOperacion()
+        break
+    elif eleccion == 2:
+        iidd = input('\nIngrese el ID del registro que desea consultar: ')
+        consultar(iidd)
+        break
+    elif eleccion == 3:
+        iidd = input('\nIngrese el ID del registro a modificar: ')
+        variable = input('\nIngrese el nombre de la variable a modificar: ')
+        valor = input('\nIngrese el nuevo valor: ')
+        modificar(iidd, variable, valor) 
+        break
+    elif eleccion == 4:
+        iidd = input('\nIngrese el ID del registro a eliminar: ')
+        borrar(iidd)
+        break
+    else:
+        print('El valor ingresado no corresponde a una opción del menu')
