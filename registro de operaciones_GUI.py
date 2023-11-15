@@ -12,8 +12,9 @@ ars_acum = 0.0
 mep_acum = 0.0
 ccl_acum = 0.0
 
+
 def crearDB():
-    database = sqlite3.connect(r"C:\Users\santi\Documents\GitHub\Financial_Ops_Database\Test_DB.db")
+    database = sqlite3.connect(r"C:\Users\santi\Documents\GitHub\Financial_Ops_Database\Test_DB")
     cursor = database.cursor()
     return database, cursor
 #crearDB()
@@ -106,14 +107,13 @@ def ingresar_fecha():
 
     ventana.mainloop()
 
-
     fecha_operacion = dt.date(año.get(), mes.get(), dia.get())
     return fecha_operacion
 
 
+tipo = {1: 'Compra', 2: 'Venta', 3: 'Ingreso', 4: 'Egreso', 5: 'Renta/Dividendos', 6:'Caucion'}
 def elegir_tipo():
-    global tipo, valor_tipo
-    tipo = {1: 'Compra', 2: 'Venta', 3: 'Ingreso', 4: 'Egreso', 5: 'Renta/Dividendos', 6:'Caucion'}
+    global valor_tipo
 
     ventana = Tk()
     ventana.title('ELEGIR EL TIPO DE OPERACIÓN A REALIZAR')
@@ -150,9 +150,9 @@ def elegir_tipo():
     return valor_tipo
 
 
+moneda = {1: 'ARS', 2: 'USD', 3: 'USD CCL'}
 def elegir_moneda():
-    global moneda, valor_moneda
-    moneda = {1: 'ARS', 2: 'USD', 3: 'USD CCL'}
+    global valor_moneda
 
     ventana = Tk()
     ventana.title('ELEGIR LA MONEDA DE LA OPERACIÓN')
@@ -211,10 +211,9 @@ def ingresar_cantidad():
     return cantidad
 
 
+clase = {1: 'Bonos', 2: 'ONs', 3: 'Equity', 4: 'Crypto', 0: ''}
 def elegir_clase():
-    global clase
     global valor_clase
-    clase = {1: 'Bonos', 2: 'ONs', 3: 'Equity', 4: 'Crypto', 0: ''}
 
     def click():
         ventana.destroy()
@@ -249,9 +248,9 @@ def elegir_clase():
     return valor_clase
 
 
+plazo = {0: 'CI', 24: '24hs', 48: '48hs', 9: ''}
 def elegir_plazo():
-    global plazo, valor_plazo
-    plazo = {0: 'CI', 24: '24hs', 48: '48hs', 9: ''}
+    global valor_plazo
 
     def click():
         ventana.destroy()
@@ -413,12 +412,6 @@ def ingresar_fx():
 def nuevaOperacion():
     global ars_acum, mep_acum, ccl_acum, egreso_cash, ingreso_cash, valor_neto, fecha_liquidacion, dias_duracion
     global fecha_operacion, valor_tipo, valor_moneda
-
-    plazo = {0: 'CI', 24: '24hs', 48: '48hs', 9: ''}
-    clase = {1: 'Bonos', 2: 'ONs', 3: 'Equity', 4: 'Crypto', 0: ''}
-    plazo = {0: 'CI', 24: '24hs', 48: '48hs', 9: ''}
-    tipo = {1: 'Compra', 2: 'Venta', 3: 'Ingreso', 4: 'Egreso', 5: 'Renta/Dividendos', 6:'Caucion'}
-    moneda = {1: 'ARS', 2: 'USD', 3: 'USD CCL'}
 
     fecha_operacion = ingresar_fecha() # retorna fecha_operacion
     valor_tipo = elegir_tipo() # retorna valor_tipo
