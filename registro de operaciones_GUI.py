@@ -14,10 +14,11 @@ ccl_acum = 0.0
 
 
 def crearDB():
-    database = sqlite3.connect(r"C:\Users\santi\Documents\GitHub\Financial_Ops_Database\Test_DB")
+    database = sqlite3.connect(r"C:\Users\santi\Documents\GitHub\Apps\Financial_Ops_Database\Test_DB.db")
     cursor = database.cursor()
     return database, cursor
 #crearDB()
+
 
 '''def crearTablas():
     database, cursor = crearDB()
@@ -37,7 +38,8 @@ def crearDB():
 
     cursor.execute(operaciones)
     cursor.execute(diponibilidad)
-    database.close()'''
+    database.close()
+crearTablas()'''
 
 def insertarOperaciones(data):
     database, cursor = crearDB()
@@ -524,7 +526,7 @@ def consultar():
     frame.pack()
     frame.config()
 
-    etiqueta_iidd = Label(frame, text='Ingrese el ID del registro a eliminar:', font=('Arial', 12))
+    etiqueta_iidd = Label(frame, text='Ingrese el ID del registro a consultar:', font=('Arial', 12))
     etiqueta_iidd.grid(column=1, row=1)
     entrada_iidd = Entry(frame, textvariable=IntVar(), width=15)
     entrada_iidd.grid(column=2, row=1)
@@ -567,7 +569,7 @@ def modificar():
     frame.pack()
     frame.config()
 
-    etiqueta_iidd = Label(frame, text='Ingrese el ID del registro a eliminar:', font=('Arial', 12))
+    etiqueta_iidd = Label(frame, text='Ingrese el ID del registro a modificar:', font=('Arial', 12))
     etiqueta_iidd.grid(column=1, row=1)
     entrada_iidd = Entry(frame, textvariable=IntVar(), width=15)
     entrada_iidd.grid(column=2, row=1)
@@ -611,7 +613,7 @@ def borrar():
     frame.pack()
     frame.config()
 
-    etiqueta_iidd = Label(frame, text='Ingrese el ID del registro a eliminar:', font=('Arial', 12))
+    etiqueta_iidd = Label(frame, text='Ingrese el ID del registro a borrar:', font=('Arial', 12))
     etiqueta_iidd.grid(column=1, row=1)
     entrada_iidd = Entry(frame, textvariable=IntVar(), width=15)
     entrada_iidd.grid(column=2, row=1)
