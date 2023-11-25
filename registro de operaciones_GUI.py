@@ -14,11 +14,10 @@ ccl_acum = 0.0
 
 
 def crearDB():
-    database = sqlite3.connect(r"C:\Users\santi\Documents\GitHub\Apps\Financial_Ops_Database\Test_DB.db")
+    database = sqlite3.connect(r"C:\Users\santi\Documents\Yo\Registro de operaciones y tenencias.db")
     cursor = database.cursor()
     return database, cursor
 #crearDB()
-
 
 '''def crearTablas():
     database, cursor = crearDB()
@@ -38,8 +37,7 @@ def crearDB():
 
     cursor.execute(operaciones)
     cursor.execute(diponibilidad)
-    database.close()
-crearTablas()'''
+    database.close()'''
 
 def insertarOperaciones(data):
     database, cursor = crearDB()
@@ -456,25 +454,21 @@ def nuevaOperacion():
 
     precio_orden = ingresar_precio_orden()
     
-    valor_operacion = float(precio_orden * cantidad)
+    valor_operacion = float(precio_orden*cantidad)
 
     if (clase[valor_clase] == 'Bonos' and tipo[valor_tipo] != 'Renta/Dividendos') or (clase[valor_clase] == 'ONs' and tipo[valor_tipo] != 'Renta/Dividendos'):
-        valor_operacion = float(precio_orden * cantidad / 100)
+        valor_operacion = float(precio_orden*cantidad/100)
     else:
-        valor_operacion = float(precio_orden * cantidad)
+        valor_operacion = float(precio_orden*cantidad)
 
     if tipo[valor_tipo] == 'Compra' or tipo[valor_tipo] == 'Venta':
     #or tipo[valor_tipo] == 'Renta/Dividendos'
         if clase[valor_clase] == 'Equity':
-            dm_iva = float((cantidad * precio_orden) * 0.0008 * 1.21)
-            dm_iva = round(dm_iva, 2)
-        elif clase[valor_clase] == 'Bonos' or clase[valor_clase] == 'ONs':
-            dm_iva = (cantidad * precio_orden / 100) * 0.0001
-            dm_iva = round(dm_iva, 2)
-        elif clase[valor_clase] == 'Crypto':
-            dm_iva = 0.0
+            dm_iva = round(float((precio_orden*cantidad)*(0.08*1.21/100)), 2)
         elif clase[valor_clase] == 'Bonos' and moneda[valor_moneda] == 'USD':
-            dm_iva = 0.0
+            dm_iva = round((precio_orden*cantidad/100)*(0.25/100), 2)
+        elif clase[valor_clase] == 'Bonos' or clase[valor_clase] == 'ONs':
+            dm_iva = round((precio_orden*cantidad/100)*(0.01/100), 2)
         else:
             dm_iva = 0.0
     else:
@@ -533,7 +527,7 @@ def consultar():
 
     def click():
         database, cursor = crearDB()
-        indicacion = f"""SELECT * FROM OPERACIONES WHERE ID={entrada_iidd.get()}"""
+        indicacion = f"""SELECT*FROM OPERACIONES WHERE ID={entrada_iidd.get()}"""
         cursor.execute(indicacion)
         for columna in cursor:
             print('\n---------------------------------------\n')
