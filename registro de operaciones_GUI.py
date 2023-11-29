@@ -14,7 +14,7 @@ ccl_acum = 0.0
 
 
 def crearDB():
-    database = sqlite3.connect(r"C:\Users\santi\Documents\Yo\Registro de operaciones y tenencias.db")
+    database = sqlite3.connect(r"C:\Users\santi\Documents\GitHub\Apps\Financial_Ops_Database\Test_DB.db")
     cursor = database.cursor()
     return database, cursor
 #crearDB()
@@ -477,13 +477,13 @@ def nuevaOperacion():
 
     if tipo[valor_tipo] == 'Compra' or tipo[valor_tipo] == 'Egreso':
         #egreso_cash = float(valor_operacion + dm_iva)
-        valor_neto = float(valor_operacion + dm_iva)
+        valor_neto = round(float(valor_operacion + dm_iva), 2)
     elif tipo[valor_tipo] == 'Venta' or tipo[valor_tipo] == 'Ingreso' or tipo[valor_tipo] == 'Renta/Dividendos':
         #ingreso_cash = float(valor_operacion - dm_iva)
-        valor_neto = float(valor_operacion - dm_iva)
+        valor_neto = round(float(valor_operacion - dm_iva), 2)
     elif tipo[valor_tipo] == 'Caucion':
         #ingreso_cash = float(valor_operacion - dm_iva)
-        valor_neto = float(valor_operacion - dm_iva)
+        valor_neto = round(float(valor_operacion - dm_iva), 2)
     
     if tipo[valor_tipo] == 'Compra' or tipo[valor_tipo] == 'Venta' or tipo[valor_tipo] == 'Renta/Dividendos':
         ticker = ingresar_ticker()
