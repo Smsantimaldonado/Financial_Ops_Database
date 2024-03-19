@@ -19,13 +19,11 @@ ars_acum = 0.0
 mep_acum = 0.0
 ccl_acum = 0.0
 
-
 def crearDB():
-    database = sqlite3.connect(r"C:\Users\santi\Documents\GitHub\Financial_Ops_Database\Test_DB.db")
+    database = sqlite3.connect(r"Apps\Financial_Ops_Database\Test_DB.db")
     cursor = database.cursor()
     return database, cursor
 #crearDB()
-
 
 def crearTablas():
 
@@ -54,7 +52,6 @@ def crearTablas():
     cursor.execute(diponibilidad)
     database.close()
 #crearTablas()
-
 
 def insertarOperaciones(data):
 
@@ -194,7 +191,6 @@ def nuevaOperacion():
     
     insertarOperaciones(data=datos)
 
-
 def consultar(iidd):
 
     database, cursor = crearDB()
@@ -223,7 +219,6 @@ def consultar(iidd):
     database.commit()
     database.close()
 
-
 def modificar(iidd, variable, valor):
 
     database, cursor = crearDB()
@@ -242,7 +237,6 @@ def modificar(iidd, variable, valor):
     database.commit()
     database.close()
 
-
 def borrar(iidd):
 
     database, cursor = crearDB()
@@ -260,7 +254,6 @@ def borrar(iidd):
     cursor.close()
     database.commit()
     database.close()
-
 
 print('\n------------------------')
 print('[1] Cargar una nueva operación')

@@ -1,7 +1,8 @@
 import sqlite3
 import datetime as dt
 from tkinter import *
-
+from tkinter import ttk
+import sv_ttk
 
 egreso_cash = 0.0
 ingreso_cash = 0.0
@@ -12,9 +13,8 @@ ars_acum = 0.0
 mep_acum = 0.0
 ccl_acum = 0.0
 
-
 def crearDB():
-    database = sqlite3.connect(r"C:\Users\santi\Documents\GitHub\Apps\Financial_Ops_Database\Test_DB.db")
+    database = sqlite3.connect(r"Apps\Financial_Ops_Database\Test_DB.db")
     cursor = database.cursor()
     return database, cursor
 #crearDB()
@@ -60,18 +60,19 @@ def insertarOperaciones(data):
         etiqueta.grid(column=1, row=1)
         print('\nError en la carga de datos\n')
 
-    def click():
+    def click(event=None):
         ventana.destroy()
 
-    boton = Button(frame, text='Cerrar y Terminar', command=click)
+    boton = ttk.Button(frame, text='Cerrar y Terminar', command=click)
     boton.grid(column=1, row=2)
+    sv_ttk.set_theme("light")
 
+    ventana.bind('<Return>', click)  # se ejecuta la función click() al presionar enter
     ventana.mainloop()
 
     database.commit()
     database.close()
-    
-    
+
 def ingresar_fecha():
     global fecha_operacion
     ventana = Tk()
@@ -99,17 +100,18 @@ def ingresar_fecha():
     entrada_dia = Entry(frame, textvariable=dia, width=15)
     entrada_dia.grid(column=2, row=3)
 
-    def click():
+    def click(event=None):
         ventana.destroy()
 
-    boton = Button(frame, text='Aceptar', command=click)
+    boton = ttk.Button(frame, text='Aceptar', command=click)
     boton.grid(column=1, row=4)
+    sv_ttk.set_theme("light")
 
+    ventana.bind('<Return>', click)  
     ventana.mainloop()
 
     fecha_operacion = dt.date(año.get(), mes.get(), dia.get())
     return fecha_operacion
-
 
 tipo = {1: 'Compra', 2: 'Venta', 3: 'Ingreso', 4: 'Egreso', 5: 'Renta/Dividendos', 6:'Caucion'}
 def elegir_tipo():
@@ -138,17 +140,18 @@ def elegir_tipo():
     op_6 = Radiobutton(frame, text='[6] Caucion', variable=opcion, value=6)
     op_6.grid(column=1, row=8)
 
-    def click():
+    def click(event=None):
         ventana.destroy()
 
-    boton = Button(frame, text='Aceptar', command=click)
+    boton = ttk.Button(frame, text='Aceptar', command=click)
     boton.grid(column=1, row=9)
+    sv_ttk.set_theme("light")
 
+    ventana.bind('<Return>', click)  
     ventana.mainloop()
 
     valor_tipo = opcion.get()
     return valor_tipo
-
 
 moneda = {1: 'ARS', 2: 'USD', 3: 'USD CCL'}
 def elegir_moneda():
@@ -171,17 +174,18 @@ def elegir_moneda():
     op_3 = Radiobutton(frame, text='[3] USD CCL', variable=opcion, value=3)
     op_3.grid(column=1, row=5)
 
-    def click():
+    def click(event=None):
         ventana.destroy()
 
-    boton = Button(frame, text='Aceptar', command=click)
+    boton = ttk.Button(frame, text='Aceptar', command=click)
     boton.grid(column=1, row=6)
+    sv_ttk.set_theme("light")
 
+    ventana.bind('<Return>', click)  
     ventana.mainloop()
 
     valor_moneda = opcion.get()
     return valor_moneda
-
 
 def ingresar_cantidad():
     global cantidad
@@ -199,23 +203,24 @@ def ingresar_cantidad():
     entrada_cantidad = Entry(frame, textvariable=cantidad, width=15)
     entrada_cantidad.grid(column=2, row=1)
 
-    def click():
+    def click(event=None):
         ventana.destroy()
 
-    boton = Button(frame, text='Aceptar', command=click)
+    boton = ttk.Button(frame, text='Aceptar', command=click)
     boton.grid(column=1, row=2)
+    sv_ttk.set_theme("light")
 
+    ventana.bind('<Return>', click)  
     ventana.mainloop()
 
     cantidad = cantidad.get()
     return cantidad
 
-
 clase = {1: 'Bonos', 2: 'ONs', 3: 'Equity', 4: 'Crypto', 0: ''}
 def elegir_clase():
     global valor_clase
 
-    def click():
+    def click(event=None):
         ventana.destroy()
 
     ventana = Tk()
@@ -239,20 +244,21 @@ def elegir_clase():
     op_5 = Radiobutton(frame, text='[5] Otro', variable=opcion, value=0)
     op_5.grid(column=1, row=7)
 
-    boton = Button(frame, text='Aceptar', command=click)
+    boton = ttk.Button(frame, text='Aceptar', command=click)
     boton.grid(column=1, row=8)
+    sv_ttk.set_theme("light")
 
+    ventana.bind('<Return>', click)  
     ventana.mainloop()
 
     valor_clase = opcion.get()
     return valor_clase
 
-
 plazo = {0: 'CI', 24: '24hs', 48: '48hs', 9: ''}
 def elegir_plazo():
     global valor_plazo
 
-    def click():
+    def click(event=None):
         ventana.destroy()
 
     ventana = Tk()
@@ -274,14 +280,15 @@ def elegir_plazo():
     op_4 = Radiobutton(frame, text='[4] Otro', variable=opcion, value=9)
     op_4.grid(column=1, row=6)
 
-    boton = Button(frame, text='Aceptar', command=click)
+    boton = ttk.Button(frame, text='Aceptar', command=click)
     boton.grid(column=1, row=7)
+    sv_ttk.set_theme("light")
 
+    ventana.bind('<Return>', click)  
     ventana.mainloop()
 
     valor_plazo = opcion.get()
     return valor_plazo
-
 
 def ingresar_precio_orden():
     global precio_orden
@@ -308,17 +315,18 @@ def ingresar_precio_orden():
     entrada_precio_orden = Entry(frame, textvariable=precio_orden, width=15)
     entrada_precio_orden.grid(column=2, row=1)
 
-    def click():
+    def click(event=None):
         ventana.destroy()
 
-    boton = Button(frame, text='Aceptar', command=click)
+    boton = ttk.Button(frame, text='Aceptar', command=click)
     boton.grid(column=1, row=2)
+    sv_ttk.set_theme("light")
 
+    ventana.bind('<Return>', click)  
     ventana.mainloop()
 
     precio_orden = precio_orden.get()
     return precio_orden
-
 
 def ingresar_ticker():
     global ticker
@@ -336,18 +344,19 @@ def ingresar_ticker():
     entrada_ticker = Entry(frame, textvariable=ticker, width=15)
     entrada_ticker.grid(column=2, row=1)
 
-    def click():
+    def click(event=None):
         ventana.destroy()
 
-    boton = Button(frame, text='Aceptar', command=click)
+    boton = ttk.Button(frame, text='Aceptar', command=click)
     boton.grid(column=1, row=2)
+    sv_ttk.set_theme("light")
 
+    ventana.bind('<Return>', click)  
     ventana.mainloop()
 
     ticker = ticker.get()
     ticker = ticker.upper()
     return ticker
-
 
 def duracion_caucion():
     global dias_duracion
@@ -365,17 +374,18 @@ def duracion_caucion():
     entrada_dias_duracion = Entry(frame, textvariable=dias_duracion, width=15)
     entrada_dias_duracion.grid(column=2, row=1)
 
-    def click():
+    def click(event=None):
         ventana.destroy()
 
-    boton = Button(frame, text='Aceptar', command=click)
+    boton = ttk.Button(frame, text='Aceptar', command=click)
     boton.grid(column=1, row=2)
+    sv_ttk.set_theme("light")
 
+    ventana.bind('<Return>', click)  
     ventana.mainloop()
 
     dias_duracion = dias_duracion.get()
     return dias_duracion
-
 
 def ingresar_fx():
     global fx
@@ -397,17 +407,18 @@ def ingresar_fx():
     entrada_fx = Entry(frame, textvariable=fx, width=15)
     entrada_fx.grid(column=2, row=2)
 
-    def click():
+    def click(event=None):
         ventana.destroy()
 
-    boton = Button(frame, text='Aceptar', command=click)
+    boton = ttk.Button(frame, text='Aceptar', command=click)
     boton.grid(column=1, row=3)
+    sv_ttk.set_theme("light")
 
+    ventana.bind('<Return>', click)  
     ventana.mainloop()
 
     fx = fx.get()
     return fx
-
 
 def nuevaOperacion():
     global ars_acum, mep_acum, ccl_acum, egreso_cash, ingreso_cash, valor_neto, fecha_liquidacion, dias_duracion
@@ -511,10 +522,9 @@ def nuevaOperacion():
     
     insertarOperaciones(data=datos)
 
-
 def consultar():
     ventana = Tk()
-    ventana.title('BORRAR OPERACION')
+    ventana.title('CONSULTAR OPERACION')
     ventana.geometry('400x100')
     frame = Frame()
     frame.pack()
@@ -525,35 +535,41 @@ def consultar():
     entrada_iidd = Entry(frame, textvariable=IntVar(), width=15)
     entrada_iidd.grid(column=2, row=1)
 
-    def click():
+    def click(event=None):
         database, cursor = crearDB()
-        indicacion = f"""SELECT*FROM OPERACIONES WHERE ID={entrada_iidd.get()}"""
-        cursor.execute(indicacion)
-        for columna in cursor:
-            print('\n---------------------------------------\n')
-            print('Fecha de la operación:   ', columna[1])
-            print('Tipo de operación:       ', columna[2])
-            print('Moneda:                  ', columna[3])
-            print('Clase:                   ', columna[4])
-            print('Plazo:                   ', columna[5])
-            print('Precio de la orden:      ', columna[6])
-            print('Cantidad:                ', columna[7])
-            print('Fx:                      ', columna[8])
-            print('Dm + IVA:                ', columna[9])
-            print('Fecha de liquidación:    ', columna[10])
-            print('Valor Neto:              ', columna[11])
-            print('Ticker:                  ', columna[12])
-            print('\n---------------------------------------\n')
-        database.close()
-        database.commit()
+        indicacion = f"""SELECT *
+                         FROM OPERACIONES
+                         WHERE ID={entrada_iidd.get()}"""
+
+        if cursor.execute(indicacion):
+            print('\nConsulta exitosa\n')
+            for columna in cursor:
+                print('\n---------------------------------------\n')
+                print('Fecha de la operación:   ', columna[1])
+                print('Tipo de operación:       ', columna[2])
+                print('Moneda:                  ', columna[3])
+                print('Clase:                   ', columna[4])
+                print('Plazo:                   ', columna[5])
+                print('Precio de la orden:      ', columna[6])
+                print('Cantidad:                ', columna[7])
+                print('Fx:                      ', columna[8])
+                print('Dm + IVA:                ', columna[9])
+                print('Fecha de liquidación:    ', columna[10])
+                print('Valor Neto:              ', columna[11])
+                print('Ticker:                  ', columna[12])
+                print('\n---------------------------------------\n')
+        else:
+            print('\nError en la consulta de datos\n')
+        
         database.close()
         ventana.destroy()
 
-    boton = Button(frame, text='Aceptar', command=click) #
+    boton = ttk.Button(frame, text='Aceptar', command=click) #
     boton.grid(column=1, row=100)
+    sv_ttk.set_theme("light")
 
+    ventana.bind('<Return>', click)  
     ventana.mainloop()
-
 
 def modificar():
     ventana = Tk()
@@ -578,7 +594,7 @@ def modificar():
     entrada_valor = Entry(frame, width=15)
     entrada_valor.grid(column=2, row=3)
 
-    def click():
+    def click(event=None):
         database, cursor = crearDB()
         indicacion= f"""UPDATE OPERACIONES
                         SET {entrada_variab.get()}='{entrada_valor.get()}'
@@ -593,11 +609,12 @@ def modificar():
         database.close()
         ventana.destroy()
 
-    boton = Button(frame, text='Aceptar', command=click)
+    boton = ttk.Button(frame, text='Aceptar', command=click)
     boton.grid(column=1, row=100)
+    sv_ttk.set_theme("light")
 
+    ventana.bind('<Return>', click)  
     ventana.mainloop()
-
 
 def borrar():
     ventana = Tk()
@@ -612,7 +629,7 @@ def borrar():
     entrada_iidd = Entry(frame, textvariable=IntVar(), width=15)
     entrada_iidd.grid(column=2, row=1)
 
-    def click():
+    def click(event=None):
         database, cursor = crearDB()
         indicacion = f"""DELETE
                          FROM OPERACIONES
@@ -626,11 +643,12 @@ def borrar():
         database.close()
         ventana.destroy()
 
-    boton = Button(frame, text='Aceptar', command=click) #
+    boton = ttk.Button(frame, text='Aceptar', command=click) #
     boton.grid(column=1, row=100)
+    sv_ttk.set_theme("light")
 
+    ventana.bind('<Return>', click)  
     ventana.mainloop()
-
 
 def elegir_operacion():
     ventana = Tk()
@@ -652,7 +670,7 @@ def elegir_operacion():
     op_4 = Radiobutton(frame, text='[4] Borrar un registro', variable=opcion, value=4)
     op_4.grid(column=1, row=6)
 
-    def click():
+    def click(event=None):
         ventana.destroy()
         while opcion.get() > 0 and opcion.get() <=4:
             if opcion.get() == 1:
@@ -670,9 +688,11 @@ def elegir_operacion():
             else:
                 print('El valor ingresado no corresponde a una opción del menu ofrecido')
 
-    boton = Button(frame, text='Aceptar', command=click)
+    boton = ttk.Button(frame, text='Aceptar', command=click)
     boton.grid(column=1, row=7)
+    sv_ttk.set_theme("light")
 
+    ventana.bind('<Return>', click)  
     ventana.mainloop()
 
 elegir_operacion()
